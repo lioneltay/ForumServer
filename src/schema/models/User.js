@@ -3,7 +3,7 @@ const type = `
     id: Int!
     name: String
     email: String
-    posts: [Post]
+    comments: [Comment]
   }
 
   extend type Query {
@@ -14,10 +14,10 @@ const type = `
 
 const resolver = {
   User: {
-    posts: (author, _, { knex }) =>
-      knex
-        .raw(`select * from post where user_id = ?`, [author.id])
-        .then(result => result[0]),
+    comments: (author, _, { knex }) =>
+      knex("user")
+        .select("*")
+        .where({ id: author.id }),
   },
 }
 
@@ -26,9 +26,9 @@ const queryResolvers = {
     return knex("user").select("*")
   },
   user: (_, { id }, { knex }) => {
-    return knex
-      .raw(`select * from user where id = ?`, [id])
-      .then(result => result[0][0])
+    return knex("user")
+      .select("*")
+      .where({ id })
   },
 }
 

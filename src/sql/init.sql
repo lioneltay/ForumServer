@@ -9,22 +9,39 @@ create table user (
   password varchar(250)
 );
 
-create table post (
+create table thread (
   id int auto_increment primary key,
   user_id int,
-  content varchar(500),
-  votes int,
+  title varchar(100),
+  content varchar(5000),
   foreign key (user_id) references user(id)
 );
 
-insert into user (name, email) values
-  ('bob', 'bob@gmail.com'),
-  ('james', 'james@gmail.com');
+create table comment (
+  id int auto_increment primary key,
+  user_id int,
+  thread_id int,
+  comment_id int,
+  content varchar(500),
+  foreign key (user_id) references user(id),
+  foreign key (thread_id) references thread(id),
+  foreign key (comment_id) references comment(id)
+);
 
-insert into post (user_id, content, votes) values
-  (1, 'Wow this blows', 0),
-  (1, 'cheese is tasty', 99),
-  (1, 'Holiday time', 2),
-  (2, 'Bored out of my mind', 1);
+insert into user (name, email) values
+  ('alice', 'alice@gmail.com'),
+  ('bob', 'bob@gmail.com'),
+  ('cam', 'cam@gmail.com');
+
+insert into thread (user_id, title, content) values
+  (1, 'Bad Coffee', 'I got some really bad coffee the other day... What should I do?'),
+  (2, 'Hungry Jacks is Amazing!', 'They have really good voucher deals that you have to ask for. They are so cheap! What do you guys think?');
+
+insert into comment (user_id, thread_id, comment_id, content) values
+  (1, 1, null, 'Wow that blows.'),
+  (2, 1, 1, 'No you blow.'),
+  (3, 1, 2, 'That escalated quickly.'),
+  (1, 1, null, 'Maybe you should file a complaint'),
+  (2, 2, null, 'Do not like Hungry Jacks that much');
 
 

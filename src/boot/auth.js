@@ -6,10 +6,13 @@ module.exports = app => {
     // req.session.user_id = 1
     const user_id = req.session.user_id
     if (user_id) {
-      knex.raw(`select * from user where id = ?`, [user_id]).then(res => {
-        req.user = res[0][0]
-        next()
-      })
+      knex("user")
+        .select("*")
+        .where({ id: user_id })
+        .then(res => {
+          req.user = res[0]
+          next()
+        })
     } else {
       next()
     }

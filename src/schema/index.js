@@ -4,7 +4,8 @@ const { combineModels } = require("./helpers")
 const Models = [
   require("./root/auth"),
   require("./models/User"),
-  require("./models/Post"),
+  require("./models/Comment"),
+  require("./models/Thread"),
 ]
 
 const { typeDefs, resolvers } = combineModels(Models)

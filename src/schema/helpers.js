@@ -1,29 +1,36 @@
 const R = require("ramda")
 
-const combineModels = Models => {
-  const typeDefs = [
-    ...Models.map(R.prop("type")),
-    `
-  type Query {
-    nothing: Int
-  }
+const notNil = R.complement(R.isNil)
 
-  type Mutation {
-    nothing: Int
-  }
-  `,
+const combineModels = Models => {
+  const types = Models.map(R.prop("type")).filter(notNil)
+  const qResolvers = Models.map(R.prop("queryResolvers")).filter(notNil)
+  const mResolvers = Models.map(R.prop("mutationResolvers")).filter(notNil)
+  const modelResolvers = Models.map(R.prop("resolver")).filter(notNil)
+
+  const typeDefs = [
+    ...types,
+    `
+      type Query {
+        nothing: Int
+      }
+
+      type Mutation {
+        nothing: Int
+      }
+    `,
   ]
 
   const QueryResolvers = {
-    Query: R.mergeAll(Models.map(R.prop("queryResolvers"))),
+    Query: R.mergeAll(qResolvers),
   }
 
   const MutationResolvers = {
-    Mutation: R.mergeAll(Models.map(R.prop("mutationResolvers"))),
+    Mutation: R.mergeAll(mResolvers),
   }
 
   const resolvers = R.mergeAll([
-    ...Models.map(R.prop("resolver")),
+    ...modelResolvers,
     QueryResolvers,
     MutationResolvers,
   ])
@@ -31,6 +38,4 @@ const combineModels = Models => {
   return { typeDefs, resolvers }
 }
 
-module.exports = {
-  combineModels,
-}
+module.exports = { combineModels }
