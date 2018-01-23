@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "compile": "tsc && node ./dist/server.js",
-    "dev": "nodemon --watch src --exec \"npm run compile\""
+    "dev": "nodemon src/server.js"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +23,7 @@
     "ramda": "^0.25.0"
   },
   "devDependencies": {
+    "@types/graphql": "^0.12.1",
     "concurrently": "^3.5.1",
     "typescript": "^2.6.2"
   }

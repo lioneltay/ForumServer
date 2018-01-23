@@ -1,15 +1,16 @@
-const { makeExecutableSchema } = require("graphql-tools")
-const { combineModels } = require("./helpers")
+const { GraphQLSchema } = require("graphql")
 
-const Models = [
-  require("./root/auth"),
-  require("./models/User"),
-  require("./models/Comment"),
-  require("./models/Thread"),
-]
+require("./types/User")
+require("./types/Thread")
+require("./types/Comment")
 
-const { typeDefs, resolvers } = combineModels(Models)
+require("./api")
 
-const schema = makeExecutableSchema({ typeDefs, resolvers })
+const GQLTypes = require.main.require("./lib/GQLTypes")
+
+const schema = new GraphQLSchema({
+  query: GQLTypes("Query"),
+  mutation: GQLTypes("Mutation"),
+})
 
 module.exports = schema
