@@ -4,13 +4,7 @@ const R = require("ramda")
 
 const GQLTypes = require.main.require("./lib/graphql-types")
 
-const apis = [
-  require("./basicAPI"),
-  require("./auth"),
-  require("./thread-crud"),
-  require("./comment-crud"),
-  require("./like-crud"),
-]
+const apis = [require("./basicAPI"), require("./auth")]
 
 const Query = GQL("Object")({
   name: "Query",

@@ -1,9 +1,6 @@
 require("./types/User")
 require("./types/Thread")
-require("./types/ThreadLike")
 require("./types/Comment")
-require("./types/CommentLike")
-require("./types/Follow")
 
 require("./api")
 

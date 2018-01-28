@@ -1,36 +1,42 @@
-const {
-  GraphQLObjectType,
-  GraphQLString,
-  GraphQLID,
-  GraphQLList,
-} = require("graphql")
+const GQL = require.main.require("./lib/graphql-types")
 
-const GQLTypes = require.main.require("./lib/GQLTypes")
-
-const Thread = new GraphQLObjectType({
+const Thread = GQL("Object")({
   name: "Thread",
+  sqlTable: "thread",
+  uniqueKey: "id",
   fields: () => ({
-    id: { type: GraphQLID },
-    title: { type: GraphQLString },
-    content: { type: GraphQLString },
+    id: { type: GQL("ID") },
+    title: { type: GQL("String") },
+    content: { type: GQL("String") },
+    archived: { type: GQL("Boolean") },
+
+    likeCount: {
+      type: GQL("Int"),
+      sqlExpr: threadTable =>
+        `(SELECT count(*) FROM thread_like where thread_like.thread_id = ${threadTable}.id)`,
+    },
+
+    likes: {
+      type: GQL("List")(GQL("ThreadLike")),
+      sqlJoin: (threadTable, likeTable) =>
+        `${threadTable}.id = ${likeTable}.thread_id`,
+    },
 
     author: {
-      type: GQLTypes("User"),
-      resolve: () => {
-        return {
-          name: "bob",
-          email: "bob@gmail.com",
-        }
-      },
+      type: GQL("User"),
+      sqlJoin: (threadTable, userTable) =>
+        `${threadTable}.user_id = ${userTable}.id`,
     },
 
     rootComments: {
-      type: GraphQLList(GQLTypes("Comment")),
-      resolve: () => {
-        return [{ content: "Sub Comment 1" }, { content: "Sub Comment 2" }]
+      type: GQL("List")(GQL("Comment")),
+      args: {
+        cow: { type: GQL("String") },
       },
+      sqlJoin: (threadTable, commentTable) =>
+        `${threadTable}.id = ${commentTable}.thread_id`,
     },
   }),
 })
 
-GQLTypes.DefineType("Thread", Thread)
+GQL.DefineType("Thread", Thread)

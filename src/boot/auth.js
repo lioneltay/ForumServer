@@ -2,7 +2,7 @@ const knex = require.main.require("./utils/knex")
 
 module.exports = app => {
   app.use((req, res, next) => {
-    console.log(req.session)
+    // console.log(req.session)
     // req.session.user_id = 1
     const user_id = req.session.user_id
     if (user_id) {
@@ -18,8 +18,8 @@ module.exports = app => {
     }
   })
 
-  app.use((req, res, next) => {
-    console.log("@@USER: ", req.user)
-    next()
-  })
+  // app.use((req, res, next) => {
+  //   console.log("@@USER: ", req.user)
+  //   next()
+  // })
 }

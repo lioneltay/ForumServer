@@ -1,46 +1,48 @@
-const {
-  GraphQLObjectType,
-  GraphQLString,
-  GraphQLID,
-  GraphQLList,
-} = require("graphql")
+const GQL = require.main.require("./lib/graphql-types")
 
-const GQLTypes = require.main.require("./lib/GQLTypes")
-
-const Comment = new GraphQLObjectType({
+const Comment = GQL("Object")({
   name: "Comment",
+  sqlTable: "comment",
+  uniqueKey: "id",
   fields: () => ({
-    id: { type: GraphQLID },
-    content: { type: GraphQLString },
+    id: { type: GQL("ID") },
+    content: { type: GQL("String") },
+
+    likeCount: {
+      type: GQL("Int"),
+      description: "The number of likes on this comment",
+      sqlExpr: likeTable =>
+        `(SELECT count(*) FROM comment_like where comment_id = ${likeTable}.id)`,
+    },
+
+    likes: {
+      type: GQL("List")(GQL("CommentLike")),
+      sqlJoin: (commentTable, likeTable) =>
+        `${commentTable}.id = ${likeTable}.comment_id`,
+    },
 
     author: {
-      type: GQLTypes("User"),
-      resolve: () => {
-        return {
-          name: "bob",
-          email: "bob@gmail.com",
-        }
-      },
+      type: GQL("User"),
+      sqlJoin: (commentTable, userTable) =>
+        `${commentTable}.user_id = ${userTable}.id`,
     },
 
     thread: {
-      type: GQLTypes("Thread"),
-      resolve: () => {
-        return {
-          id: 1,
-          title: "The Best Thread",
-          content: "some good content here",
-        }
-      },
+      type: GQL("Thread"),
+      sqlJoin: (commentTable, threadTable) =>
+        `${commentTable}.thread_id = ${threadTable}.id`,
     },
 
     subComments: {
-      type: GraphQLList(GQLTypes("Comment")),
-      resolve: () => {
-        return [{ content: "Sub Comment 1" }, { content: "Sub Comment 2" }]
-      },
+      type: GQL("List")(GQL("Comment")),
+      sqlJoin: (commentTable, commentTable2) =>
+        `${commentTable}.id = ${commentTable2}.comment_id`,
+      // sqlBatch: {
+      //   thisKey: "comment_id",
+      //   parentKey: "id",
+      // },
     },
   }),
 })
 
-GQLTypes.DefineType("Comment", Comment)
+GQL.DefineType("Comment", Comment)

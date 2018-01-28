@@ -1,74 +1,63 @@
-const { GraphQLList, GraphQLString, GraphQLID } = require("graphql")
-
-const R = require("ramda")
-
-const GQLTypes = require.main.require("./lib/GQLTypes")
+const GQL = require.main.require("./lib/graphql-types")
+const joinMonster = require.main.require("./lib/join-monster")
 
 const queryFields = {
   users: {
-    type: GraphQLList(GQLTypes("User")),
-    resolve: (parentValue, args, { knex }) => {
-      return knex("user").select("*")
-    },
+    type: GQL("List")(GQL("User")),
+    resolve: (parentValue, args, context, resolveInfo) =>
+      joinMonster(resolveInfo, {}),
   },
 
   user: {
-    type: GQLTypes("User"),
+    type: GQL("User"),
     args: {
-      id: { type: GraphQLID },
+      id: { type: GQL("ID") },
     },
-    resolve: (parentValue, { id }, { knex }) => {
-      return knex("user")
-        .select("*")
-        .where({ id })
-        .then(R.head)
+    where: (table, args, { knex }) => {
+      return knex.raw(`${table}.id = ?`, args.id).toString()
     },
+    resolve: (parentValue, args, { knex }, resolveInfo) =>
+      joinMonster(resolveInfo, { knex }),
   },
 
   threads: {
-    type: GraphQLList(GQLTypes("Thread")),
-    resolve: (parentValue, args, { knex }) => {
-      return knex("thread").select("*")
-    },
+    type: GQL("List")(GQL("Thread")),
+    resolve: (parentValue, args, context, resolveInfo) =>
+      joinMonster(resolveInfo, {}),
   },
 
   thread: {
-    type: GQLTypes("Thread"),
+    type: GQL("Thread"),
     args: {
-      id: { type: GraphQLID },
+      id: { type: GQL("ID") },
     },
-    resolve: (parentValue, { id }, { knex }) => {
-      return knex("thread")
-        .select("*")
-        .where({ id })
-        .then(R.head)
-    },
+    where: (table, args, { knex }) =>
+      knex.raw(`${table}.id = ?`, args.id).toString(),
+    resolve: (parentValue, args, { knex }, resolveInfo) =>
+      joinMonster(resolveInfo, { knex }),
   },
 
   comments: {
-    type: GraphQLList(GQLTypes("Comment")),
-    resolve: (parentValue, args, { knex }) => {
-      return knex("comment").select("*")
-    },
+    type: GQL("List")(GQL("Comment")),
+    resolve: (parentValue, args, context, resolveInfo) =>
+      joinMonster(resolveInfo, {}),
   },
 
   comment: {
-    type: GQLTypes("Comment"),
+    type: GQL("Comment"),
     args: {
-      id: { type: GraphQLID },
+      id: { type: GQL("ID") },
     },
-    resolve: (parentValue, { id }, { knex }) => {
-      return knex("comment")
-        .select("*")
-        .where({ id })
-        .then(R.head)
-    },
+    where: (table, args, { knex }) =>
+      knex.raw(`${table}.id = ?`, args.id).toString(),
+    resolve: (parentValue, args, { knex }, resolveInfo) =>
+      joinMonster(resolveInfo, { knex }),
   },
 }
 
 const mutationFields = {
   testMutation: {
-    type: GraphQLString,
+    type: GQL("String"),
     resolve: () => `Hello World`,
   },
 }
