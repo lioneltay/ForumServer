@@ -6,6 +6,7 @@ const Comment = GQL("Object")({
   uniqueKey: "id",
   fields: () => ({
     id: { type: GQL("ID") },
+    created_at: { type: GQL("String") },
     content: { type: GQL("String") },
 
     likeCount: {

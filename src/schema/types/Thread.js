@@ -6,6 +6,7 @@ const Thread = GQL("Object")({
   uniqueKey: "id",
   fields: () => ({
     id: { type: GQL("ID") },
+    created_at: { type: GQL("String") },
     title: { type: GQL("String") },
     content: { type: GQL("String") },
     archived: { type: GQL("Boolean") },
@@ -32,6 +33,9 @@ const Thread = GQL("Object")({
       type: GQL("List")(GQL("Comment")),
       args: {
         cow: { type: GQL("String") },
+      },
+      where: (table, args, { knex }) => {
+        return knex.raw(`${table}.comment_id is null`).toString()
       },
       sqlJoin: (threadTable, commentTable) =>
         `${threadTable}.id = ${commentTable}.thread_id`,
