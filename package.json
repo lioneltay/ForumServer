@@ -19,6 +19,7 @@
     "graphql": "^0.12.3",
     "graphql-tools": "^2.18.0",
     "join-monster": "^2.0.16",
+    "join-monster-graphql-tools-adapter": "0.0.3",
     "knex": "^0.14.2",
     "mysql": "^2.15.0",
     "ramda": "^0.25.0"

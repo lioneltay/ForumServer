@@ -1,0 +1,11 @@
+type Thread {
+  id: ID
+  created_at: String
+  title: String
+  content: String
+  archived: Boolean
+  likeCount: Int
+  likes: [ThreadLike]
+  author: User
+  rootComments: [Comment]
+}

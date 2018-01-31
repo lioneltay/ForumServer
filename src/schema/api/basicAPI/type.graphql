@@ -1,0 +1,12 @@
+extend type Query {
+  users: [User]
+  user(id: ID): User
+  threads: [Thread]
+  thread(id: ID): Thread
+  comments: [Comment]
+  comment(id: ID): Comment
+}
+
+extend type Mutation {
+  testMutation: String
+}

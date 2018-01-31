@@ -1,0 +1,5 @@
+type ThreadLike {
+  user_id: ID
+  thread_id: ID
+  thread: Thread
+}

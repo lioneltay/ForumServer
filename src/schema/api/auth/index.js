@@ -1,25 +1,21 @@
-const GQL = require.main.require("./lib/graphql-types")
+const requireGraphql = require.main.require("./lib/require-graphql")
+
+const type = requireGraphql(module, "./type")
 
 const { hashPassword, comparePassword } = require.main.require("./utils/auth")
 
-const queryFields = {
+const jmAnnotations = {}
+
+const queryResolvers = {
   currentUser: {
-    type: GQL("User"),
     resolve: (parentValue, args, { user }) => {
       return user
     },
   },
 }
 
-const mutationFields = {
+const mutationResolvers = {
   signup: {
-    type: GQL("User"),
-    args: {
-      first_name: { type: GQL("NonNull")(GQL("String")) },
-      last_name: { type: GQL("NonNull")(GQL("String")) },
-      email: { type: GQL("NonNull")(GQL("String")) },
-      password: { type: GQL("NonNull")(GQL("String")) },
-    },
     resolve: (
       parentValue,
       { first_name, last_name, email, password },
@@ -59,11 +55,6 @@ const mutationFields = {
     },
   },
   login: {
-    type: GQL("User"),
-    args: {
-      email: { type: GQL("String") },
-      password: { type: GQL("String") },
-    },
     resolve: (parentValue, { email, password }, { knex, session }) => {
       return knex("user")
         .select("*")
@@ -93,7 +84,6 @@ const mutationFields = {
     },
   },
   logout: {
-    type: GQL("User"),
     resolve: (parentValue, args, { session, user }) => {
       session.user_id = null
       return user
@@ -101,4 +91,4 @@ const mutationFields = {
   },
 }
 
-module.exports = { queryFields, mutationFields }
+module.exports = { queryResolvers, mutationResolvers, jmAnnotations, type }

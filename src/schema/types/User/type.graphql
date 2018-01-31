@@ -1,0 +1,19 @@
+enum FollowType {
+  ALL
+  FOLLOWER
+  FOLLOWEE
+}
+
+type User {
+  id: ID
+  first_name: String
+  last_name: String
+  full_name: String
+  email: String
+  created_at: String
+  comments: [Comment]
+  threads: [Thread]
+  follows(type: FollowType): [Follow]
+  followers: [User]
+  followees: [User]
+}

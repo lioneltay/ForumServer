@@ -1,0 +1,13 @@
+type Comment {
+  id: ID!
+  created_at: String!
+  content: String
+  """
+  The number of likes on this comment
+  """
+  likeCount: Int!
+  likes: CommentLike
+  author: User
+  thread: Thread
+  subComments: [Comment]
+}

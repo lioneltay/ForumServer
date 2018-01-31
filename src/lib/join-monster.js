@@ -9,7 +9,7 @@ const defaultDBCall = sql => knex.raw(sql).then(R.head)
 module.exports = (resolveInfo, context, dbCall = defaultDBCall, options) =>
   joinMonster(
     resolveInfo,
-    context,
+    R.merge({ knex }, context),
     sql => {
       if (debug) {
         console.log("\n", sql)

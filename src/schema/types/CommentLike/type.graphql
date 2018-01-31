@@ -1,0 +1,5 @@
+type CommentLike {
+  user_id: ID
+  comment_id: ID
+  comment: Comment
+}
