@@ -1,6 +1,6 @@
 type Thread {
   id: ID
-  created_at: String
+  createdAt: String
   title: String
   content: String
   archived: Boolean

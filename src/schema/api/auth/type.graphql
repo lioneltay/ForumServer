@@ -1,11 +1,11 @@
 extend type Query {
-  currentUser: [User]
+  currentUser: User
 }
 
 extend type Mutation {
   signup(
-    first_name: String!
-    last_name: String!
+    firstName: String!
+    lastName: String!
     email: String!
     password: String!
   ): User

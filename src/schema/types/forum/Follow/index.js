@@ -7,6 +7,8 @@ const jmAnnotation = {
     sqlTable: "follow",
     uniqueKey: ["follower_id", "followee_id"],
     fields: {
+      createdAt: { sqlColumn: "created_at" },
+
       follower: {
         sqlJoin: (followTable, userTable) =>
           `${followTable}.follower_id = ${userTable}.id`,

@@ -1,6 +1,6 @@
 const joinMonster = require("join-monster").default
 const R = require("ramda")
-const knex = require("knex")(require.main.require("./knexfile"))
+const knex = require.main.require("./lib/knex")
 
 const debug = true
 

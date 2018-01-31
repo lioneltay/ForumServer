@@ -8,6 +8,8 @@ const jmAnnotations = {
     sqlTable: "thread",
     uniqueKey: "id",
     fields: {
+      createdAt: { sqlColumn: "created_at" },
+
       likeCount: {
         sqlExpr: threadTable =>
           `(SELECT count(*) FROM thread_like where thread_like.thread_id = ${threadTable}.id)`,

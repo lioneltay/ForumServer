@@ -7,6 +7,8 @@ const jmAnnotations = {
     sqlTable: "comment",
     uniqueKey: "id",
     fields: {
+      createdAt: { sqlColumn: "created_at" },
+
       likeCount: {
         sqlExpr: likeTable =>
           `(SELECT count(*) FROM comment_like where comment_id = ${likeTable}.id)`,

@@ -1,4 +1,4 @@
-const knex = require.main.require("./utils/knex")
+const knex = require.main.require("./lib/knex")
 
 module.exports = app => {
   app.use((req, res, next) => {

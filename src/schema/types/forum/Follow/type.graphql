@@ -1,7 +1,7 @@
 type Follow {
   follower_id: ID
   followee_id: ID
-  created_at: String
+  createdAt: String
   follower: User
   followee: User
 }

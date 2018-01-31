@@ -6,11 +6,11 @@ enum FollowType {
 
 type User {
   id: ID
-  first_name: String
-  last_name: String
-  full_name: String
+  firstName: String
+  lastName: String
+  fullName: String
   email: String
-  created_at: String
+  createdAt: String
   comments: [Comment]
   threads: [Thread]
   follows(type: FollowType): [Follow]

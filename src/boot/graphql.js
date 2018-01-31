@@ -1,6 +1,6 @@
 const graphqlHTTP = require("express-graphql")
 const schema = require("../schema")
-const knex = require("knex")(require("../knexfile"))
+const knex = require.main.require("./lib/knex")
 
 module.exports = app => {
   app.use(
