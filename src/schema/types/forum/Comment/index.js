@@ -7,7 +7,7 @@ const jmAnnotations = {
     sqlTable: "comment",
     uniqueKey: "id",
     fields: {
-      createdAt: { sqlColumn: "created_at" },
+      created_at: { sqlColumn: "created_at" },
 
       likeCount: {
         sqlExpr: likeTable =>

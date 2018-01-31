@@ -7,11 +7,11 @@ const jmAnnotations = {
     sqlTable: "user",
     uniqueKey: "id",
     fields: {
-      firstName: { sqlColumn: "first_name" },
-      lastName: { sqlColumn: "last_name" },
-      createdAt: { sqlColumn: "created_at" },
+      first_name: { sqlColumn: "first_name" },
+      last_name: { sqlColumn: "last_name" },
+      created_at: { sqlColumn: "created_at" },
 
-      fullName: {
+      full_name: {
         sqlDeps: ["first_name", "last_name"],
         resolve: ({ first_name, last_name }) =>
           [first_name, last_name].filter(Boolean).join(" "),

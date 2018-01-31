@@ -20,7 +20,7 @@ const resolver = {
     signup: {
       resolve: (
         parentValue,
-        { firstName, lastName, email, password },
+        { first_name, last_name, email, password },
         { knex, session }
       ) => {
         return knex("user")
@@ -37,8 +37,8 @@ const resolver = {
             return hashPassword(password).then(hashedPassword =>
               knex("user")
                 .insert({
-                  first_name: firstName,
-                  last_name: lastName,
+                  first_name: first_name,
+                  last_name: last_name,
                   email,
                   password: hashedPassword,
                 })

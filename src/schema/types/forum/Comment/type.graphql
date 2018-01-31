@@ -1,6 +1,6 @@
 type Comment {
   id: ID!
-  createdAt: String!
+  created_at: String!
   content: String
   """
   The number of likes on this comment
